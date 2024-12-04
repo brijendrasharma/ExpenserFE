@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenser App</title>
+    <link rel="stylesheet" href="css/primary.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Expenser</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#expenses">Expenses</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main">
+        <!-- Categories Section -->
+        <div id="categories" class="section">
+            <h2>Categories</h2>
+            <p>List of expense categories will go here.</p>
+            <div id="category-list">
+
+            </div>
+        </div>
+
+        <!-- Expenses Section -->
+        <div id="expenses" class="section">
+            <h2>Expenses</h2>
+            <p>Details of expenses will go here.</p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2024 Expenser App. All rights reserved.</p>
+    </div>
+    <script>
+        // URL of the API endpoint
+        const apiUrl = 'https://localhost:7166/api/Category';
+
+        // Function to fetch categories
+        async function fetchCategories() {
+            try {
+                const response = await fetch(apiUrl);
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
+
+                const categories = await response.json();
+                displayCategories(categories);
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+                document.getElementById('category-list').innerHTML = `<li>${error.message}</li>`;
+            }
+        }
+
+        // Function to display categories in the HTML
+        function displayCategories(categories) {
+            const categoryList = document.getElementById('category-list');
+            categoryList.innerHTML = '';
+
+            categories.forEach(category => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${category.id} - ${category.category_name}`;
+                categoryList.appendChild(listItem);
+                const button = document.createElement('button');
+                button.value = "Delete";
+                listItem.appendChild
+            });
+        }
+
+        // Call the fetch function on page load
+        fetchCategories();
+    </script>
+
+</body>
+</html>
